@@ -1,11 +1,14 @@
 // Be sure to put locations.tsv and names.tsv
 // from b_getting_locations into your current data folder!
 
+//in this version i am also adding names.tsv and 
+// grabbing the text, plugging it into the text function
 
 //introduce variables and objects
 PImage mapImage;
 Table locationTable; //this is using the Table object
 Table amountsTable; //this is using the Table object
+Table namesTable;
 int rowCount;
 float dataMin = MAX_FLOAT;
 float dataMax = MIN_FLOAT;
@@ -23,6 +26,7 @@ void setup() {
   //assign tables to object
   locationTable = new Table("locations.tsv");  
   amountsTable = new Table("amounts.tsv");
+   namesTable = new Table("names.tsv");
 
   // get number of rows and store in a variable called rowCount
   rowCount = locationTable.getRowCount();
@@ -40,6 +44,7 @@ void setup() {
       dataMin = value;
     }
   }
+  noStroke();
 }
 
 void draw() {
@@ -61,9 +66,21 @@ void draw() {
 
 //if the closestDist variable does not equal the maximum float variable....
   if (closestDist != MAX_FLOAT) {
-    fill(0);
+    
+    //making labels here.
+    rectMode(CENTER);
+    //getting the length of the current string and storing it in
+    // a variable called tw
+    float tw = textWidth(closestText);
+    fill(200,150,200);
+    
+    //using tw for the width of my rect label
+    //closestTextX and Y variables are generated below in drawData
+    rect(closestTextX, closestTextY-4, tw+10, 20);
+    fill(255);
     textAlign(CENTER);
     text(closestText, closestTextX, closestTextY);
+    
   }
 }
 
@@ -78,7 +95,7 @@ void drawData(float x, float y, String id) {
     //remap the value to a range between 1.5 and 15
     radius = map(value, 0, dataMax, 1.5, 15); 
     //and make it this color
-    fill(#4422CC);
+    fill(150,50,100);
   } else {
     //otherwise, if the number is negative, make it this color.
     radius = map(value, 0, dataMin, 1.5, 15);
@@ -93,8 +110,9 @@ void drawData(float x, float y, String id) {
 //if the mouse is hovering over circle, show information as text
   if ((d<radius+2) && (d<closestDist)) {
     closestDist = d;
-    String name = amountsTable.getString(id, 1);
-    closestText = name +" "+value;
+    //String name = amountsTable.getString(id, 1);
+    String nameofLocation = namesTable.getString(id, 1);
+    closestText = nameofLocation;
     closestTextX = x;
     closestTextY = y-radius-4;
   }
