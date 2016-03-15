@@ -55,8 +55,24 @@ void draw() {
     //get the 2nd and 3rd fields and assign them to
     float x = locationTable.getFloat(id, 1);
     float y = locationTable.getFloat(id, 2);
+    
+    //set variable to be the current row # and add 1 to get the next row
+    int inc = row+1;
+    
+    //reset inc to 0 once it hits the end of the file
+    if(inc>rowCount-1){
+     inc = 0; 
+    }
+
+    //plug the values into second set of x and y variables for line function below
+    float x2 = locationTable.getFloat(inc, 1);
+    float y2 = locationTable.getFloat(inc, 2);
+      
+     
+    
+    
     //use the drawData function (written below) to position and visualize
-    drawData(x, y, id);
+    drawData(x, y, x2, y2, id);
   }
 
 //if the closestDist variable does not equal the maximum float variable....
@@ -69,7 +85,7 @@ void draw() {
 
 //we write this function to visualize our data 
 // it takes 3 arguments: x, y and id
-void drawData(float x, float y, String id) {
+void drawData(float x, float y, float x2, float y2, String id) {
 //value variable equals second field in row
   float value = amountsTable.getFloat(id, 1);
   float radius = 0;
@@ -78,16 +94,19 @@ void drawData(float x, float y, String id) {
     //remap the value to a range between 1.5 and 15
     radius = map(value, 0, dataMax, 1.5, 15); 
     //and make it this color
-    fill(#4422CC);
+    fill(110,50,200);
   } else {
     //otherwise, if the number is negative, make it this color.
     radius = map(value, 0, dataMin, 1.5, 15);
     fill(#FF4422);
   }
   //make a circle at the x and y locations using the radius values assigned above
+  noStroke();
   ellipseMode(RADIUS);
   ellipse(x, y, radius, radius);
-
+  stroke(110,50,200);
+  strokeWeight(5);
+  line(x, y, x2, y2);
   float d = dist(x, y, mouseX, mouseY);
 
 //if the mouse is hovering over circle, show information as text
