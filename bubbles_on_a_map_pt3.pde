@@ -6,6 +6,7 @@
 PImage mapImage;
 Table locationTable; //this is using the Table object
 Table amountsTable; //this is using the Table object
+Table namesTable;
 int rowCount;
 float dataMin = MAX_FLOAT;
 float dataMax = MIN_FLOAT;
@@ -23,6 +24,7 @@ void setup() {
   //assign tables to object
   locationTable = new Table("locations.tsv");  
   amountsTable = new Table("amounts.tsv");
+   namesTable = new Table("names.tsv");
 
   // get number of rows and store in a variable called rowCount
   rowCount = locationTable.getRowCount();
@@ -93,9 +95,11 @@ void drawData(float x, float y, String id) {
 //if the mouse is hovering over circle, show information as text
   if ((d<radius+2) && (d<closestDist)) {
     closestDist = d;
-    String name = amountsTable.getString(id, 1);
-    closestText = name +" "+value;
+    //String name = amountsTable.getString(id, 1);
+    String nameofLocation = namesTable.getString(id, 1);
+    closestText = nameofLocation;
     closestTextX = x;
     closestTextY = y-radius-4;
+    println(nameofLocation);
   }
 }
