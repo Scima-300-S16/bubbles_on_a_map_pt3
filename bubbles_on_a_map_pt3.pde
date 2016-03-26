@@ -17,8 +17,8 @@ float closestTextX;
 float closestTextY;
 
 void setup() {
-  size(640, 400);
-  mapImage = loadImage("oakland_map.png");
+  size(647, 482);
+  mapImage = loadImage("brain.jpg");
 
   //assign tables to object
   locationTable = new Table("locations.tsv");  
@@ -76,17 +76,19 @@ void drawData(float x, float y, String id) {
 //if the value variable holds a float greater than or equal to 0
   if (value>=0) {
     //remap the value to a range between 1.5 and 15
-    radius = map(value, 0, dataMax, 1.5, 15); 
+    radius = map(value, 0, dataMax, 3, 30); 
     //and make it this color
-    fill(#4422CC);
+    noStroke();
+    fill(#333366); // blue
   } else {
     //otherwise, if the number is negative, make it this color.
-    radius = map(value, 0, dataMin, 1.5, 15);
-    fill(#FF4422);
+    radius = map(value, 0, dataMin, 3, 30);
+    noStroke();
+    fill(#EC5166); // red
   }
   //make a circle at the x and y locations using the radius values assigned above
-  ellipseMode(RADIUS);
-  ellipse(x, y, radius, radius);
+  rectMode(RADIUS);
+  rect(x, y, radius, radius);
 
   float d = dist(x, y, mouseX, mouseY);
 
