@@ -52,7 +52,7 @@ class Table {
   
   
   String getRowName(int row) {
-    return getString(row, 0);
+    return getString(row, 1);
   }
 
 
@@ -87,7 +87,7 @@ class Table {
   
   
   void setRowName(int row, String what) {
-    data[row][0] = what;
+    data[row][1] = what;
   }
 
 

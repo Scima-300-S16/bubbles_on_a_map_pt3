@@ -17,8 +17,8 @@ float closestTextX;
 float closestTextY;
 
 void setup() {
-  size(640, 400);
-  mapImage = loadImage("oakland_map.png");
+  size(900, 830);
+  mapImage = loadImage("SFMap1.png");
 
   //assign tables to object
   locationTable = new Table("locations.tsv");  
@@ -27,7 +27,7 @@ void setup() {
   // get number of rows and store in a variable called rowCount
   rowCount = locationTable.getRowCount();
   //count through rows to find max and min values in random.tsv and store values in variables
-  for (int row = 0; row< rowCount; row++) {
+  for (int row = 1; row< rowCount; row++) {
     //get the value of the second field in each row (1)
     float value = amountsTable.getFloat(row, 1);
     //if the highest # in the table is higher than what is stored in the 
