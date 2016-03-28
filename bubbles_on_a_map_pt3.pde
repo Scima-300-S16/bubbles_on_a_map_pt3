@@ -29,7 +29,7 @@ void setup() {
   //count through rows to find max and min values in random.tsv and store values in variables
   for (int row = 1; row< rowCount; row++) {
     //get the value of the second field in each row (1)
-    float value = amountsTable.getFloat(row, 1);
+    float value = amountsTable.getFloat(row, 0);
     //if the highest # in the table is higher than what is stored in the 
     //dataMax variable, set value = dataMax
     if (value>dataMax) {
@@ -76,13 +76,13 @@ void drawData(float x, float y, String id) {
 //if the value variable holds a float greater than or equal to 0
   if (value>=0) {
     //remap the value to a range between 1.5 and 15
-    radius = map(value, 0, dataMax, 1.5, 15); 
+    radius = map(value, 0, dataMax, 2.1, 25); 
     //and make it this color
-    fill(#4422CC);
+    fill(#17A4FF);
   } else {
     //otherwise, if the number is negative, make it this color.
-    radius = map(value, 0, dataMin, 1.5, 15);
-    fill(#FF4422);
+    radius = map(value, 0, dataMin, 2.1, 25);
+    fill(#FF1717);
   }
   //make a circle at the x and y locations using the radius values assigned above
   ellipseMode(RADIUS);

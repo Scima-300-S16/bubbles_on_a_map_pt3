@@ -52,7 +52,7 @@ class Table {
   
   
   String getRowName(int row) {
-    return getString(row, 1);
+    return getString(row, 0);
   }
 
 
