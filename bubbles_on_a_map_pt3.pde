@@ -16,6 +16,11 @@ String closestText;
 float closestTextX;
 float closestTextY;
 
+int previousMillis = 0; 
+int interval = 1000;
+
+int counter = 0;
+
 void setup() {
   size(640, 400);
   mapImage = loadImage("oakland_map.png");
@@ -48,7 +53,7 @@ void draw() {
 
   closestDist = MAX_FLOAT;
 
-//count through rows of location table, 
+  //count through rows of location table, 
   for (int row = 0; row<rowCount; row++) {
     //assign id values to variable called id
     String id = amountsTable.getRowName(row);
@@ -59,7 +64,7 @@ void draw() {
     drawData(x, y, id);
   }
 
-//if the closestDist variable does not equal the maximum float variable....
+  //if the closestDist variable does not equal the maximum float variable....
   if (closestDist != MAX_FLOAT) {
     fill(0);
     textAlign(CENTER);
@@ -70,27 +75,42 @@ void draw() {
 //we write this function to visualize our data 
 // it takes 3 arguments: x, y and id
 void drawData(float x, float y, String id) {
-//value variable equals second field in row
+  //value variable equals second field in row
   float value = amountsTable.getFloat(id, 1);
   float radius = 0;
-//if the value variable holds a float greater than or equal to 0
+  //if the value variable holds a float greater than or equal to 0
   if (value>=0) {
     //remap the value to a range between 1.5 and 15
     radius = map(value, 0, dataMax, 1.5, 15); 
     //and make it this color
-    fill(#4422CC);
+    //fill(#4422CC);
   } else {
     //otherwise, if the number is negative, make it this color.
     radius = map(value, 0, dataMin, 1.5, 15);
-    fill(#FF4422);
+    //fill(#FF4422);
   }
+
+  int currentMillis = millis();
+  if (currentMillis - previousMillis >= interval) {
+    previousMillis = currentMillis;
+    // do stuff
+    println("counter: ", counter);
+    counter++;
+    if (counter % 2 ==0){
+     fill(255); 
+    }else{
+     fill(0); 
+    }
+  }
+  
+  
   //make a circle at the x and y locations using the radius values assigned above
   ellipseMode(RADIUS);
   ellipse(x, y, radius, radius);
 
   float d = dist(x, y, mouseX, mouseY);
 
-//if the mouse is hovering over circle, show information as text
+  //if the mouse is hovering over circle, show information as text
   if ((d<radius+2) && (d<closestDist)) {
     closestDist = d;
     String name = amountsTable.getString(id, 1);
