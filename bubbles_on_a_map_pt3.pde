@@ -1,7 +1,3 @@
-// Be sure to put locations.tsv and names.tsv
-// from b_getting_locations into your current data folder!
-
-
 //introduce variables and objects
 PImage mapImage;
 Table locationTable; //this is using the Table object
@@ -9,12 +5,16 @@ Table amountsTable; //this is using the Table object
 int rowCount;
 float dataMin = MAX_FLOAT;
 float dataMax = MIN_FLOAT;
-
+color c= color(255,0,0);
 //global variables assigned values in drawData()
 float closestDist;
 String closestText;
 float closestTextX;
 float closestTextY;
+
+float minusrad;
+float moreopa;
+
 
 void setup() {
   size(900, 830);
@@ -45,6 +45,9 @@ void setup() {
 void draw() {
   background(255);
   image(mapImage, 0, 0);
+  //just a filter for the image to make it darker
+    fill(0,0,0,75);
+    rect(0,0,1000,1000);
 
   closestDist = MAX_FLOAT;
 
@@ -56,6 +59,7 @@ void draw() {
     float x = locationTable.getFloat(id, 1);
     float y = locationTable.getFloat(id, 2);
     //use the drawData function (written below) to position and visualize
+       
     drawData(x, y, id);
   }
 
@@ -74,21 +78,26 @@ void drawData(float x, float y, String id) {
   float value = amountsTable.getFloat(id, 1);
   float radius = 0;
 //if the value variable holds a float greater than or equal to 0
-  if (value>=0) {
+  if (value>=15) {
     //remap the value to a range between 1.5 and 15
-    radius = map(value, 0, dataMax, 2.1, 25); 
+    radius = map(value, 21, dataMax/3, 20, 50); 
     //and make it this color
-    fill(#17A4FF);
+    
+    strokeWeight(0);
   } else {
     //otherwise, if the number is negative, make it this color.
-    radius = map(value, 0, dataMin, 2.1, 25);
-    fill(#FF1717);
+    radius = map(value, 12, dataMax/3, 20, 50);   
+    strokeWeight(0);
   }
   //make a circle at the x and y locations using the radius values assigned above
+
+  fill(c);
   ellipseMode(RADIUS);
   ellipse(x, y, radius, radius);
 
   float d = dist(x, y, mouseX, mouseY);
+
+println(d);
 
 //if the mouse is hovering over circle, show information as text
   if ((d<radius+2) && (d<closestDist)) {
@@ -97,5 +106,15 @@ void drawData(float x, float y, String id) {
     closestText = name +" "+value;
     closestTextX = x;
     closestTextY = y-radius-4;
+    
+    //minusrad = -20;
+    //moreopa = 250;
+    fill(0,255,0);
+    ellipseMode(RADIUS);
+    ellipse(x, y, radius+20, radius+20);
+  }
+    else {
+      minusrad = 0;
+      moreopa = 0;
   }
 }
